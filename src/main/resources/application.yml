@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: spring-security-asymmetric-encryption
+  config:
+    import:
+      - optional:file:.env[.properties]
+  datasource:
+    url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: MYSQL
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: true
+
+debug: false
+trace: false
+
+logging:
+  level:
+    root: info
+    org.springframework: DEBUG
+    org.hibernate.SQL: TRACE    # view SQL statements :contentReference[oaicite:3]{index=3}
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2.provider: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env  # expose endpoints :contentReference[oaicite:4]{index=4}
+
+app:
+  security:
+    jwt:
+      access-token-expiration: 86400000  # 24 hours for local but recommended 15 minutes
+      refresh-token-expiration: 60480000 # 7 days
+    disposable-emails: 10minutemail, 20minutemail, 33mail, 5ymail, anonbox, querrillamail,mailinator, maildrop, moakt, my10minutemail, throwawaymail, trashmail, temp-mail, truemail, yopmail
+
+jwt:
+  private-key-path: /keys/local-only/private_key.pem
+  public-key-path: /keys/local-only/public_key.pem
+  algorithm: RSA
